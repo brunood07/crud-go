@@ -1,6 +1,7 @@
 package db
 
 import (
+	"crud/src/env"
 	"database/sql"
 	"log"
 )
@@ -8,11 +9,14 @@ import (
 var CON *sql.DB
 
 func Init() {
-	var err error
-	CON, err = sql.Open("postgres", "postgres://admin:admin@localhost:5432/learning-go?sslmode=disable")
-	if err != nil {
-		log.Fatal(err)
-	}
+    cfg := env.LoadEnv()
+
+    db, err := sql.Open(cfg.DBDriver, cfg.DBDatasource)
+    if err != nil {
+			log.Fatal(err)
+    }
+
+		CON = db
 }
 
 func SetDB(db *sql.DB) {

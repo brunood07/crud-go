@@ -19,9 +19,9 @@ func GetUsers(c *gin.Context) {
 	}
 	defer rows.Close()
 
-	var users []user
+	var users []User
 	for rows.Next() {
-		var u user
+		var u User
 		err := rows.Scan(&u.ID, &u.FirstName, &u.LastName, &u.Age, &u.Email)
 		if err != nil {
 			log.Fatal(err)
@@ -37,7 +37,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func CreateUser(c *gin.Context) {
-	var newUser user
+	var newUser User
 	if err := c.BindJSON(&newUser); err != nil {
 		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
@@ -67,7 +67,7 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	var updateUser user
+	var updateUser User
 	if err := c.BindJSON(&updateUser); err != nil {
 		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})

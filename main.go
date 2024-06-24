@@ -2,21 +2,16 @@ package main
 
 import (
 	"crud/src/db"
+	"crud/src/env"
 	"crud/src/services"
-	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-			log.Fatal("Error loading .env file")
-	}
-	
+	cfg := env.LoadEnv()
+
 	db.Init()
 	
 	router := gin.Default()
@@ -24,5 +19,5 @@ func main() {
 	router.POST("/users", services.CreateUser)
 	router.PUT("/users/:id", services.UpdateUser)
 	router.DELETE("/users/:id", services.DeleteUser)
-	router.Run("localhost:8080")
+	router.Run("localhost:" + cfg.Port);
 }

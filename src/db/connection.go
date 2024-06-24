@@ -14,3 +14,7 @@ func Init() {
 		log.Fatal(err)
 	}
 }
+
+func SetDB(db *sql.DB) {
+	CON = db
+}

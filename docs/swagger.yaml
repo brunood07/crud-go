@@ -128,6 +128,39 @@ paths:
       summary: Get all user notifications
       tags:
       - notifications
+  /notifications/user/unread/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get all user unread notifications
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Notification'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all user unread notifications
+      tags:
+      - notifications
   /users:
     get:
       description: Get a list of users

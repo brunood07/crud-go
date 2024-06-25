@@ -47,6 +47,7 @@ func main() {
 	router.POST("/notifications", NotificationsController.CreateNotification)
 	router.PUT("/notifications/read/:id", NotificationsController.SetNotificationRead)
 	router.GET("/notifications/user/:id", NotificationsController.GetUserNotifications)
+	router.GET("/notifications/user/unread/:id", NotificationsController.GetUserUnreadNotifications)
 
 	// SWAGGER
 	swaggerHost := cfg.SwaggerHost

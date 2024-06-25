@@ -119,3 +119,33 @@ func (nr *NotificationsRepository) GetAllNotificationsForRecipient(recipientId i
 
 	return notifications, nil
 }
+
+func (nr *NotificationsRepository) GetRecipientUnreadNotifications(recipientId int) ([]models.Notification, error) {
+		// Prepare the SELECT statement
+		query := "SELECT id, title, content, readAt, recipientId FROM notification WHERE recipientId=$1 AND readAt is NULL"
+		rows, err := nr.connection.Query(query, recipientId)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		defer rows.Close()
+	
+		var notifications []models.Notification
+		for rows.Next() {
+			var notification models.Notification
+			err := rows.Scan(&notification.ID, &notification.Title, &notification.Content, &notification.ReadAt, &notification.RecipientId)
+			if err != nil {
+				fmt.Println(err)
+				return nil, err
+			}
+			notifications = append(notifications, notification)
+		}
+	
+		// Check for errors from iterating over rows
+		if err = rows.Err(); err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+	
+		return notifications, nil
+}

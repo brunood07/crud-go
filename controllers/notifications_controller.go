@@ -109,3 +109,33 @@ func (nc *NotificationsController) GetUserNotifications(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, notifications)
 }
+
+// GetUserUnreadNotifications godoc
+// @Summary Get all user unread notifications
+// @Description Get all user unread notifications
+// @Tags notifications
+// @Accept  json
+// @Produce  json
+// @Param id path int true "User ID"
+// @Success 200 {object} []models.Notification
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /notifications/user/unread/:id [get]
+func (nc *NotificationsController) GetUserUnreadNotifications(ctx *gin.Context) {
+	id := ctx.Param("id")
+	userId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid user id", })
+		return
+	}
+
+	notifications, err := nc.notificationsUsecase.GetUserUnreadNotifications(userId)
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "while fetching user notifications", })
+		return
+	}
+
+	ctx.JSON(http.StatusOK, notifications)
+}

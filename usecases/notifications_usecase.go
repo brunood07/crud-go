@@ -41,3 +41,12 @@ func (nu *notificationsUsecase) GetUserNotifications(userId int) ([]models.Notif
 
 	return notifications, nil
 }
+
+func (nu *notificationsUsecase) GetUserUnreadNotifications(userId int) ([]models.Notification, error) {
+	notifications, err := nu.repository.GetRecipientUnreadNotifications(userId)
+	if err != nil {
+		return []models.Notification{}, err
+	}
+
+	return notifications, nil
+}

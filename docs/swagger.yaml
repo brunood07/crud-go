@@ -64,6 +64,70 @@ paths:
       summary: Create a notification
       tags:
       - notifications
+  /notifications/read/:id:
+    put:
+      consumes:
+      - application/json
+      description: Update notification to read
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Notification'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Changes a notification to read
+      tags:
+      - notifications
+  /notifications/user/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get all user notifications
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Notification'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all user notifications
+      tags:
+      - notifications
   /users:
     get:
       description: Get a list of users

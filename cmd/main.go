@@ -45,6 +45,8 @@ func main() {
 	NotificationsUsecase := usecase.NewNotificationsUsecase(NotificationsRepository)
 	NotificationsController := controller.NewNotificationsController(NotificationsUsecase)
 	router.POST("/notifications", NotificationsController.CreateNotification)
+	router.PUT("/notifications/read/:id", NotificationsController.SetNotificationRead)
+	router.GET("/notifications/user/:id", NotificationsController.GetUserNotifications)
 
 	// SWAGGER
 	swaggerHost := cfg.SwaggerHost

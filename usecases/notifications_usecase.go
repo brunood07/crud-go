@@ -23,3 +23,21 @@ func (nu *notificationsUsecase) CreateNotification(newNotification models.Notifi
 
 	return notification, nil
 }
+
+func (nu *notificationsUsecase) SetNotificationRead(notificationId int) (models.Notification, error) {
+	notification, err := nu.repository.SetNotificationReadByID(notificationId)
+	if err != nil {
+		return models.Notification{}, err
+	}
+
+	return notification, nil
+}
+
+func (nu *notificationsUsecase) GetUserNotifications(userId int) ([]models.Notification, error) {
+	notifications, err := nu.repository.GetAllNotificationsForRecipient(userId)
+	if err != nil {
+		return []models.Notification{}, err
+	}
+
+	return notifications, nil
+}

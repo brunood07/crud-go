@@ -5,6 +5,7 @@ import (
 	"crud/models"
 	"database/sql"
 	"fmt"
+	"time"
 )
 
 type NotificationsRepository struct {
@@ -18,7 +19,6 @@ func NewNotificationsRepository(connection *sql.DB) NotificationsRepository {
 }
 
 func (nr *NotificationsRepository) CreateNotification(newNotification models.Notification) (models.Notification, error) {
-
 	rows, err := db.CON.Query("SELECT id, first_name, last_name, age, email FROM users")
 	if err != nil {
 		fmt.Println(err)
@@ -59,4 +59,63 @@ func (nr *NotificationsRepository) CreateNotification(newNotification models.Not
 	}
 
 	return newNotification, nil
+}
+
+func (nr *NotificationsRepository) SetNotificationReadByID(id int) (models.Notification, error) {
+	// Update the readAt field
+	stmt, err := nr.connection.Prepare("UPDATE notification SET readAt=$1 WHERE id=$2")
+	if err != nil {
+		fmt.Println(err)
+		return models.Notification{}, err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(time.Now(), id)
+	if err != nil {
+		fmt.Println(err)
+		return models.Notification{}, err
+	}
+
+	// Retrieve the updated notification
+	var updatedNotification models.Notification
+	query := "SELECT id, title, content, readAt, recipientId FROM notification WHERE id=$1"
+	err = nr.connection.QueryRow(query, id).Scan(
+		&updatedNotification.ID, &updatedNotification.Title, &updatedNotification.Content, &updatedNotification.ReadAt, &updatedNotification.RecipientId,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return models.Notification{}, err
+	}
+
+	return updatedNotification, nil
+}
+
+func (nr *NotificationsRepository) GetAllNotificationsForRecipient(recipientId int) ([]models.Notification, error) {
+	// Prepare the SELECT statement
+	query := "SELECT id, title, content, readAt, recipientId FROM notification WHERE recipientId=$1"
+	rows, err := nr.connection.Query(query, recipientId)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var notifications []models.Notification
+	for rows.Next() {
+		var notification models.Notification
+		err := rows.Scan(&notification.ID, &notification.Title, &notification.Content, &notification.ReadAt, &notification.RecipientId)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		notifications = append(notifications, notification)
+	}
+
+	// Check for errors from iterating over rows
+	if err = rows.Err(); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return notifications, nil
 }

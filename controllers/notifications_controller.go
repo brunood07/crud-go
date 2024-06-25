@@ -3,7 +3,9 @@ package controller
 import (
 	"crud/models"
 	usecase "crud/usecases"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,4 +47,65 @@ func (nc *NotificationsController) CreateNotification(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, createdNotification)
+}
+
+// SetNotificationRead godoc
+// @Summary Changes a notification to read
+// @Description Update notification to read
+// @Tags notifications
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Notification ID"
+// @Success 200 {object} models.Notification
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /notifications/read/:id [put]
+func (nc *NotificationsController) SetNotificationRead(ctx *gin.Context) {
+	id := ctx.Param("id")
+	notificationId, err := strconv.Atoi(id)
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid notification id to update", })
+		return
+	}
+
+	readNotification, err := nc.notificationsUsecase.SetNotificationRead(notificationId)
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "updating notification", })
+		return
+	}
+
+	ctx.JSON(http.StatusOK, readNotification)
+}
+
+// GetUserNotifications godoc
+// @Summary Get all user notifications
+// @Description Get all user notifications
+// @Tags notifications
+// @Accept  json
+// @Produce  json
+// @Param id path int true "User ID"
+// @Success 200 {object} []models.Notification
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /notifications/user/:id [get]
+func (nc *NotificationsController) GetUserNotifications(ctx *gin.Context) {
+	id := ctx.Param("id")
+	userId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid user id", })
+		return
+	}
+
+	notifications, err := nc.notificationsUsecase.GetUserNotifications(userId)
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "while fetching user notifications", })
+		return
+	}
+
+	ctx.JSON(http.StatusOK, notifications)
 }

@@ -19,7 +19,7 @@ import (
 // @title           Swagger Example API
 // @version         1.0
 // @description     This is a sample server celler server.
-// @host      https://crud-go-4kur.onrender.com
+// @host      localhost:8080
 func main() {
 	cfg := env.LoadEnv()
 
@@ -47,7 +47,11 @@ func main() {
 	router.POST("/notifications", NotificationsController.CreateNotification)
 
 	// SWAGGER
-	router.GET("/swagger-ui/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	swaggerHost := cfg.SwaggerHost
+	if swaggerHost == "" {
+		swaggerHost = "localhost:8080"
+	}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://"+swaggerHost+"/swagger/doc.json")))
 
 	router.Run(cfg.Host + cfg.Port);
 }

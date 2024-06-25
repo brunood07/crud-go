@@ -15,7 +15,7 @@ func NewNotificationsUsecase(repo repositories.NotificationsRepository) Notifica
 	}
 }
 
-func (nu *notificationsUsecase) CreateNotification(newNotification models.Notification) (models.Notification, error) {
+func (nu *notificationsUsecase) CreateNotification(newNotification models.CreateNotification) (models.Notification, error) {
 	notification, err := nu.repository.CreateNotification(newNotification)
 	if err != nil {
 		return models.Notification{}, err

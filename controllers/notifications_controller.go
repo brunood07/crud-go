@@ -26,14 +26,14 @@ func NewNotificationsController(usecase usecase.NotificationsUsecase) Notificati
 // @Tags notifications
 // @Accept  json
 // @Produce  json
-// @Param notification body models.Notification true "Notification to create"
+// @Param notification body models.CreateNotification true "Notification to create"
 // @Success 201 {object} models.Notification
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /notifications [post]
 func (nc *NotificationsController) CreateNotification(ctx *gin.Context) {
 
-	var newNotification models.Notification
+	var newNotification models.CreateNotification
 	err := ctx.BindJSON(&newNotification)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
@@ -59,7 +59,7 @@ func (nc *NotificationsController) CreateNotification(ctx *gin.Context) {
 // @Success 200 {object} models.Notification
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /notifications/read/:id [put]
+// @Router /notifications/read/{id} [put]
 func (nc *NotificationsController) SetNotificationRead(ctx *gin.Context) {
 	id := ctx.Param("id")
 	notificationId, err := strconv.Atoi(id)
@@ -90,7 +90,7 @@ func (nc *NotificationsController) SetNotificationRead(ctx *gin.Context) {
 // @Success 200 {object} []models.Notification
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /notifications/user/:id [get]
+// @Router /notifications/user/{id} [get]
 func (nc *NotificationsController) GetUserNotifications(ctx *gin.Context) {
 	id := ctx.Param("id")
 	userId, err := strconv.Atoi(id)
@@ -120,7 +120,7 @@ func (nc *NotificationsController) GetUserNotifications(ctx *gin.Context) {
 // @Success 200 {object} []models.Notification
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /notifications/user/unread/:id [get]
+// @Router /notifications/user/unread/{id} [get]
 func (nc *NotificationsController) GetUserUnreadNotifications(ctx *gin.Context) {
 	id := ctx.Param("id")
 	userId, err := strconv.Atoi(id)

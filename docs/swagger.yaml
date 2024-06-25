@@ -1,13 +1,31 @@
 definitions:
+  models.CreateNotification:
+    properties:
+      content:
+        type: string
+      title:
+        type: string
+    type: object
+  models.CreateUser:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
   models.Notification:
     properties:
       content:
         type: string
       id:
         type: integer
-      readAt:
+      read_at:
         type: string
-      recipientId:
+      recipient_id:
         type: integer
       title:
         type: string
@@ -20,10 +38,12 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: integer
       last_name:
         type: string
     type: object
-host: crud-go-4kur.onrender.com
+host: localhost:8080
 info:
   contact: {}
   description: This is a sample server celler server.
@@ -41,7 +61,7 @@ paths:
         name: notification
         required: true
         schema:
-          $ref: '#/definitions/models.Notification'
+          $ref: '#/definitions/models.CreateNotification'
       produces:
       - application/json
       responses:
@@ -62,7 +82,7 @@ paths:
       summary: Create a notification
       tags:
       - notifications
-  /notifications/read/:id:
+  /notifications/read/{id}:
     put:
       consumes:
       - application/json
@@ -93,7 +113,7 @@ paths:
       summary: Changes a notification to read
       tags:
       - notifications
-  /notifications/user/:id:
+  /notifications/user/{id}:
     get:
       consumes:
       - application/json
@@ -126,7 +146,7 @@ paths:
       summary: Get all user notifications
       tags:
       - notifications
-  /notifications/user/unread/:id:
+  /notifications/user/unread/{id}:
     get:
       consumes:
       - application/json
@@ -189,7 +209,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.CreateUser'
       produces:
       - application/json
       responses:

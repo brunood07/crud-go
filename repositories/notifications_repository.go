@@ -18,7 +18,7 @@ func NewNotificationsRepository(connection *sql.DB) NotificationsRepository {
 	}
 }
 
-func (nr *NotificationsRepository) CreateNotification(newNotification models.Notification) (models.Notification, error) {
+func (nr *NotificationsRepository) CreateNotification(newNotification models.CreateNotification) (models.Notification, error) {
 	rows, err := db.CON.Query("SELECT id, first_name, last_name, age, email FROM users")
 	if err != nil {
 		fmt.Println(err)
@@ -44,21 +44,22 @@ func (nr *NotificationsRepository) CreateNotification(newNotification models.Not
 	}
 
 	for _, user := range users {
-		stmt, err := db.CON.Prepare("INSERT INTO notification (title, content, readAt, recipientId) VALUES ($1, $2, $3, $4) RETURNING id")
+		var notification models.Notification
+		stmt, err := db.CON.Prepare("INSERT INTO notification (title, content, recipientId) VALUES ($1, $2, $3) RETURNING id")
 		if err != nil {
 			fmt.Println(err)
 		return models.Notification{}, err
 		}
 		defer stmt.Close()
 
-		err = stmt.QueryRow(newNotification.Title, newNotification.Content, newNotification.ReadAt, user.ID).Scan(&newNotification.ID)
+		err = stmt.QueryRow(notification.Title, notification.Content, user.ID).Scan(&notification.ID)
 		if err != nil {
 			fmt.Println(err)
 		return models.Notification{}, err
 		}
 	}
 
-	return newNotification, nil
+	return models.Notification{}, nil
 }
 
 func (nr *NotificationsRepository) SetNotificationReadByID(id int) (models.Notification, error) {

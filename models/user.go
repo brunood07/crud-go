@@ -1,7 +1,14 @@
 package models
 
 type User struct {
-	ID        int    `json:"-"`
+	ID        int    `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
+	Email     string `json:"email"`
+}
+
+type CreateUser struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Age       int    `json:"age"`

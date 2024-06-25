@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Notification"
+                            "$ref": "#/definitions/models.CreateNotification"
                         }
                     }
                 ],
@@ -63,7 +63,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/notifications/read/:id": {
+        "/notifications/read/{id}": {
             "put": {
                 "description": "Update notification to read",
                 "consumes": [
@@ -109,9 +109,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/notifications/user/:id": {
+        "/notifications/user/unread/{id}": {
             "get": {
-                "description": "Get all user notifications",
+                "description": "Get all user unread notifications",
                 "consumes": [
                     "application/json"
                 ],
@@ -121,7 +121,7 @@ const docTemplate = `{
                 "tags": [
                     "notifications"
                 ],
-                "summary": "Get all user notifications",
+                "summary": "Get all user unread notifications",
                 "parameters": [
                     {
                         "type": "integer",
@@ -158,9 +158,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/notifications/user/unread/:id": {
+        "/notifications/user/{id}": {
             "get": {
-                "description": "Get all user unread notifications",
+                "description": "Get all user notifications",
                 "consumes": [
                     "application/json"
                 ],
@@ -170,7 +170,7 @@ const docTemplate = `{
                 "tags": [
                     "notifications"
                 ],
-                "summary": "Get all user unread notifications",
+                "summary": "Get all user notifications",
                 "parameters": [
                     {
                         "type": "integer",
@@ -255,7 +255,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.CreateUser"
                         }
                     }
                 ],
@@ -382,6 +382,34 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.CreateNotification": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateUser": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Notification": {
             "type": "object",
             "properties": {
@@ -391,10 +419,10 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "readAt": {
+                "read_at": {
                     "type": "string"
                 },
-                "recipientId": {
+                "recipient_id": {
                     "type": "integer"
                 },
                 "title": {
@@ -414,6 +442,9 @@ const docTemplate = `{
                 "first_name": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                },
                 "last_name": {
                     "type": "string"
                 }
@@ -425,7 +456,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "crud-go-4kur.onrender.com",
+	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

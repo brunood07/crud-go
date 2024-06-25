@@ -15,7 +15,7 @@ func NewUsersUsecase(repo repositories.UsersRepository) UsersUsecase {
 	}
 }
 
-func (uu *usersUsecase) CreateUser(newUser models.User) (models.User, error) {
+func (uu *usersUsecase) CreateUser(newUser models.CreateUser) (models.User, error) {
 	user, err := uu.repository.CreateUser(newUser)
 	if err != nil {
 		return models.User{}, err

@@ -26,14 +26,14 @@ func NewUsersController(usecase usecase.UsersUsecase) UsersController {
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body models.User true "User to create"
+// @Param user body models.CreateUser true "User to create"
 // @Success 201 {object} models.User
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /users [post]
 func (uc *UsersController) CreateUser(ctx *gin.Context) {
 
-	var newUser models.User
+	var newUser models.CreateUser
 	err := ctx.BindJSON(&newUser)
 
 	if err != nil {

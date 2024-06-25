@@ -17,8 +17,7 @@ func NewUsersRepository(connection *sql.DB) UsersRepository {
 	}
 }
 
-func (ur *UsersRepository) CreateUser(newUser models.User) (models.User, error) {
-	
+func (ur *UsersRepository) CreateUser(newUser models.CreateUser) (models.User, error) {
 	stmt, err := ur.connection.Prepare("INSERT INTO users (first_name, last_name, age, email) VALUES ($1, $2, $3, $4) RETURNING id")
 	if err != nil {
 		fmt.Println(err)
@@ -26,14 +25,15 @@ func (ur *UsersRepository) CreateUser(newUser models.User) (models.User, error) 
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(newUser.ID, newUser.FirstName, newUser.LastName, newUser.Age, newUser.Email).Scan(&newUser.ID)
+	var user models.User
+	// Execute the query and scan the returned id into newUser.ID
+	err = stmt.QueryRow(user.FirstName, user.LastName, user.Age, user.Email).Scan(&user.ID)
 	if err != nil {
 		fmt.Println(err)
 		return models.User{}, err
 	}
 
-	stmt.Close()
-	return newUser, nil
+	return user, nil
 }
 
 func (ur *UsersRepository) GetUsers() ([]models.User, error) {
@@ -52,6 +52,7 @@ func (ur *UsersRepository) GetUsers() ([]models.User, error) {
 			fmt.Println(err)
 			return []models.User{}, err
 		}
+		fmt.Println(u)
 		users = append(users, u)
 	}
 	err = rows.Err()

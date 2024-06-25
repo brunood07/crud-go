@@ -52,5 +52,5 @@ func main() {
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL(swaggerHost+"/swagger/doc.json")))
 
-	router.Run(cfg.Host + cfg.Port);
+	router.Run(cfg.AppHost + cfg.Port);
 }

@@ -11,6 +11,7 @@ type Env struct {
 	DBDriver   string
 	DBDatasource string
 	Port       string
+	Host string
 	MigrationPath string
 }
 
@@ -24,11 +25,13 @@ func LoadEnv() *Env {
 	DBDatasource := os.Getenv("DATASOURCE")
 	Port := os.Getenv("PORT")
 	MigrationPath := os.Getenv("MIGRATION_PATH")
+	Host := os.Getenv("HOST")
 
 	return &Env{
 		DBDriver:   DBDriver,
 		DBDatasource: DBDatasource,
 		Port:       Port,
 		MigrationPath: MigrationPath,
+		Host: Host,
 	}
 }

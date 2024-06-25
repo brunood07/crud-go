@@ -49,5 +49,5 @@ func main() {
 	// SWAGGER
 	router.GET("/swagger-ui/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.Run("localhost:" + cfg.Port);
+	router.Run(cfg.Host + cfg.Port);
 }

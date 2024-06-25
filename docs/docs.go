@@ -414,9 +414,6 @@ const docTemplate = `{
                 "first_name": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "last_name": {
                     "type": "string"
                 }

@@ -26,7 +26,7 @@ func (ur *UsersRepository) CreateUser(newUser models.User) (models.User, error) 
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(newUser.FirstName, newUser.LastName, newUser.Age, newUser.Email).Scan(&newUser.ID)
+	err = stmt.QueryRow(newUser.ID, newUser.FirstName, newUser.LastName, newUser.Age, newUser.Email).Scan(&newUser.ID)
 	if err != nil {
 		fmt.Println(err)
 		return models.User{}, err

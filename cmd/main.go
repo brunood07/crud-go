@@ -48,9 +48,9 @@ func main() {
 	// SWAGGER
 	swaggerHost := cfg.SwaggerHost
 	if swaggerHost == "" {
-		swaggerHost = "localhost:8080"
+		swaggerHost = "http://localhost:8080"
 	}
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://"+swaggerHost+"/swagger/doc.json")))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL(swaggerHost+"/swagger/doc.json")))
 
 	router.Run(cfg.Host + cfg.Port);
 }

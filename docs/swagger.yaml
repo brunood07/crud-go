@@ -25,7 +25,7 @@ definitions:
       last_name:
         type: string
     type: object
-host: localhost:8080
+host: https://crud-go-4kur.onrender.com
 info:
   contact: {}
   description: This is a sample server celler server.

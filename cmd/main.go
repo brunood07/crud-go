@@ -19,6 +19,7 @@ import (
 // @title           Swagger Example API
 // @version         1.0
 // @description     This is a sample server celler server.
+// @host						https://crud-go-4kur.onrender.com
 func main() {
 	cfg := env.LoadEnv()
 

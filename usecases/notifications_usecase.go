@@ -5,17 +5,17 @@ import (
 	"crud/repositories"
 )
 
-type NotificationsUsecase struct {
+type notificationsUsecase struct {
 	repository repositories.NotificationsRepository
 }
 
 func NewNotificationsUsecase(repo repositories.NotificationsRepository) NotificationsUsecase {
-	return NotificationsUsecase{
+	return &notificationsUsecase{
 		repository: repo,
 	}
 }
 
-func (nu *NotificationsUsecase) CreateNotification(newNotification models.Notification) (models.Notification, error) {
+func (nu *notificationsUsecase) CreateNotification(newNotification models.Notification) (models.Notification, error) {
 	notification, err := nu.repository.CreateNotification(newNotification)
 	if err != nil {
 		return models.Notification{}, err

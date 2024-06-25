@@ -5,17 +5,17 @@ import (
 	"crud/repositories"
 )
 
-type UsersUsecase struct {
+type usersUsecase struct {
 	repository repositories.UsersRepository
 }
 
 func NewUsersUsecase(repo repositories.UsersRepository) UsersUsecase {
-	return UsersUsecase{
+	return &usersUsecase{
 		repository: repo,
 	}
 }
 
-func (uu *UsersUsecase) CreateUser(newUser models.User) (models.User, error) {
+func (uu *usersUsecase) CreateUser(newUser models.User) (models.User, error) {
 	user, err := uu.repository.CreateUser(newUser)
 	if err != nil {
 		return models.User{}, err
@@ -24,7 +24,7 @@ func (uu *UsersUsecase) CreateUser(newUser models.User) (models.User, error) {
 	return user, nil
 }
 
-func (uu *UsersUsecase) GetUsers() ([]models.User, error) {
+func (uu *usersUsecase) GetUsers() ([]models.User, error) {
 		users, err := uu.repository.GetUsers()
 		if err != nil {
 			return []models.User{}, err
@@ -33,7 +33,7 @@ func (uu *UsersUsecase) GetUsers() ([]models.User, error) {
 		return users, nil
 }
 
-func (uu *UsersUsecase) UpdateUser(id int, updateUser models.User) (models.User, error) {
+func (uu *usersUsecase) UpdateUser(id int, updateUser models.User) (models.User, error) {
 	updatedUser, err := uu.repository.UpdateUser(id, updateUser)
 	if err != nil {
 		return models.User{}, err
@@ -42,7 +42,7 @@ func (uu *UsersUsecase) UpdateUser(id int, updateUser models.User) (models.User,
 	return updatedUser, nil
 }
 
-func (uu *UsersUsecase) DeleteUser(id int) (string, error) {
+func (uu *usersUsecase) DeleteUser(id int) (string, error) {
 	delete, err := uu.repository.DeleteUser(id)
 	if err != nil {
 		return "", err

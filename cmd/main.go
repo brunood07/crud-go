@@ -8,10 +8,18 @@ import (
 	usecase "crud/usecases"
 	"log"
 
+	_ "crud/docs"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @host      localhost:8080
 func main() {
 	cfg := env.LoadEnv()
 
@@ -21,7 +29,7 @@ func main() {
 		log.Fatalf("Failed to apply migrations: %v", err)
 }
 	router := gin.Default()
-	
+
 	// USER ROUTES
 	UsersRepository := repositories.NewUsersRepository(db.CON)
 	UsersUsecase := usecase.NewUsersUsecase(UsersRepository)
@@ -37,6 +45,9 @@ func main() {
 	NotificationsUsecase := usecase.NewNotificationsUsecase(NotificationsRepository)
 	NotificationsController := controller.NewNotificationsController(NotificationsUsecase)
 	router.POST("/notifications", NotificationsController.CreateNotification)
+
+	// SWAGGER
+	router.GET("/swagger-ui/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run("localhost:" + cfg.Port);
 }

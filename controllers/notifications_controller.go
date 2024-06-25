@@ -18,6 +18,17 @@ func NewNotificationsController(usecase usecase.NotificationsUsecase) Notificati
 	}
 }
 
+// CreateNotification godoc
+// @Summary Create a notification
+// @Description Create a new notification
+// @Tags notifications
+// @Accept  json
+// @Produce  json
+// @Param notification body models.Notification true "Notification to create"
+// @Success 201 {object} models.Notification
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /notifications [post]
 func (nc *NotificationsController) CreateNotification(ctx *gin.Context) {
 
 	var newNotification models.Notification

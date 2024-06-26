@@ -16,9 +16,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title           Swagger Example API
+// @title           Swagger GO CRUD
 // @version         1.0
-// @description     This is a sample server celler server.
+// @description     This is a simple go api.
 // @host						crud-go-4kur.onrender.com
 func main() {
 	cfg := env.LoadEnv()

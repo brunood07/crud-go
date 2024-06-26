@@ -46,8 +46,8 @@ definitions:
 host: crud-go-4kur.onrender.com
 info:
   contact: {}
-  description: This is a sample server celler server.
-  title: Swagger Example API
+  description: This is a simple go api.
+  title: Swagger GO CRUD
   version: "1.0"
 paths:
   /notifications:
